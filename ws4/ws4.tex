@@ -1,0 +1,98 @@
+\documentclass[11pt,letterpaper]{article}
+
+% include figures
+\usepackage{graphicx}
+% get nice colors
+\usepackage{xcolor}
+
+% change default font to Palatino (looks nicer!)
+\usepackage[latin1]{inputenc}
+\usepackage{mathpazo}
+\usepackage[T1]{fontenc}
+% load some useful math symbols/fonts
+\usepackage{latexsym,amsfonts,amsmath,amssymb}
+
+% comfort package to easily set margins
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+% spacing after a paragraph
+\setlength{\parskip}{.15cm}
+% indentation at the top of a new paragraph
+\setlength{\parindent}{0.0cm}
+
+
+\begin{document}
+
+\begin{center}
+\Large
+Ay190 -- Worksheet 4\\
+Daniel DeFelippis\\
+Date: \today
+\end{center}
+
+%%
+%%
+%% I worked with Scott Barenfeld
+%%
+%% All python code can be found in the ws4 directory in my repository
+%%
+%%
+
+\section{Root Finding}
+
+\subsection*{a}
+
+In this problem, we want to numerically calculate the root of the equation 
+$$ E - \omega t - e\sin E = 0 $$ for a given angular frequency $\omega$, 
+time $t$, and eccentricity $e$. To do this, we choose the Secant method, 
+in which points are recursively chosen via the relation
+$$ x_{n+1} = x_n - f(x_n) \frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})} $$
+until the fractional error of some $x_k$ is below the threshold $\epsilon$, 
+which we choose to be $\epsilon = 10^{-10}$. To begin the process, we must
+first make two guesses at the root. Since $e$ is small, it is sensible to
+choose $x_0 = \omega t$ as the first guess of the root (ignoring the small 
+$e\sin x$ term), and then take a point near that, say $x_1 = 0.9x_0$ as the
+second guess. After applying the Secant method, we get the results for three different times, shown below.
+
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    time (days) & E & \# of iterations & (x, y) (AU)\\ \hline
+    91.0 & 1.58209228899 & 4 & (-0.0112957219731, 0.99965732909) \\ \hline
+    182.0 & 3.13096420068 & 3 & (-0.999943518526, 0.0106252886903) \\ \hline
+    273.0 & 4.67948910053 & 4 & (-0.0328939450239, -0.999180108689) \\
+    \hline
+    \end{tabular}
+\end{center}
+
+We see that the three times correspond to the Earth being 1/4 along, 2/4
+along, and 3/4 along its orbit. The convergence is very quick, taking a
+maximum of 4 iterations to be within our $10^{-10}$ threshold.     
+
+\subsection*{b}
+
+Here, we increase the eccentricity drastically, from 0.0167 to 0.99999,
+meaning the orbit is now essentially a straight line on the x-axis. The
+table of results below now shows the Secant method taking longer to find the 
+root, especially for the 1/4 and 3/4 orbit times. 
+
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    time (days) & E & \# of iterations & (x, y) (AU)\\ \hline
+    91.0 & 2.30664638749 & 7 & (-0.671217514443, 1.48251347872e-05) \\ \hline
+    182.0 & 3.13618964107 & 4 & (-0.999985403763, 1.08059184419e-07) \\ \hline
+    273.0 & 4.67948910053 & 6 & (-0.680720102446, -1.46507989671e-05) \\
+    \hline
+    \end{tabular}
+\end{center}
+
+It may be possible, in this case, to decrease the number of iterations 
+necessary by using the exact derivative, since we can calculate it 
+analytically. Doing so does indeed reduce the number of iterations 
+for the 1/4 and 3/4 orbit times by 1. Since $e \approx 1$, ignoring the 
+$\sin$ term no longer makes as much sense, so choosing a better first
+guess would also accelerate the convergence for this high eccentricity 
+orbit calculation.
+
+\end{document}
