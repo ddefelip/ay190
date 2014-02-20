@@ -65,7 +65,7 @@ def RHS(rad,rho,z):
     rhs = np.zeros(2)
     if rad == 0:
         rhs[0] = 0.
-        rhs[1] = 4.*np.pi*ggrav*rho ### trying z/r = 1?
+        rhs[1] = 4.*np.pi*ggrav*rho ### + a constant?
     else:
         rhs[0] = z
         rhs[1] = 4.*np.pi*ggrav*rho - 2.*z/rad
